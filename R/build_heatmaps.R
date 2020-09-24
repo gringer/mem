@@ -7,8 +7,7 @@ build.heatmaps <-
              newWindow.heatmaps = FALSE,
              output.files = FALSE,
              labels = FALSE,
-             only.MEMheatmap = FALSE,
-             output.dir = "output files") {
+             only.MEMheatmap = FALSE) {
         dendro_var_MEM = cluster.MEM
         dendro_var_med = cluster.medians
         dendro_var_IQR = cluster.IQRs
@@ -306,12 +305,14 @@ build.heatmaps <-
                     )
             }
         }
-        dir.create(file.path(getwd(), output.dir), showWarnings = FALSE)
+        dir.create(file.path(getwd(), "output files"), showWarnings = FALSE)
         if (output.files == TRUE) {
             # #         # Generate pdfs from MEM heatmap plot
-            pdf(file.path(output.dir,
-                          paste0(strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
-                                 " MEM heatmap.pdf")),
+            pdf(paste(
+                "./output files/",
+                strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
+                " MEM heatmap.pdf"
+            ),
             width = 10)
             heatmap.2(
                 heatmap_data,
@@ -339,25 +340,34 @@ build.heatmaps <-
             # Write data to text files
             write.table(
                 as.matrix(clustered_matrix),
-                file.path(output.dir,
-                          paste0(strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
-                                 " MEM matrix.txt")),
+                paste(
+                    "./output files/",
+                    strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
+                    " MEM matrix.txt",
+                    sep = ""
+                ),
                 sep = "\t",
                 row.names = TRUE
             )
             write.table(
                 as.matrix(reorder_medians),
-                file.path(output.dir,
-                          paste0(strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
-                                 " Medians matrix.txt")),
+                paste(
+                    "./output files/",
+                    strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
+                    " Medians matrix.txt",
+                    sep = ""
+                ),
                 sep = "\t",
                 row.names = TRUE
             )
             write.table(
                 as.matrix(reorder_IQR),
-                file.path(output.dir,
-                          paste0(strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
-                                 " IQRs matrix.txt")),
+                paste(
+                    "./output files/",
+                    strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
+                    " IQRs matrix.txt",
+                    sep = ""
+                ),
                 sep = "\t",
                 row.names = TRUE
             )
@@ -365,9 +375,11 @@ build.heatmaps <-
             if (((exp_data[[6]])[[1]]) == 0){
                 write.table(
                     enrichment_score_ordered,
-                    file.path(output.dir,
-                              paste0(strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
-                                     " enrichment score-rownames.txt")),
+                    paste(
+                        "./output files/",
+                        strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
+                        " enrichment score-rownames.txt"
+                    ),
                     sep = "\t"
                 )
             }else{
@@ -379,9 +391,11 @@ build.heatmaps <-
                 colnames(new_rownames_filenames) <- c("File", "MEM label")
                 write.table(
                     new_rownames_filenames,
-                    file.path(output.dir,
-                              paste0(strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
-                                     " enrichment score-rownames.txt")),
+                    paste(
+                        "./output files/",
+                        strftime(Sys.time(), "%Y-%m-%d_%H%M%S"),
+                        " enrichment score-rownames.txt"
+                    ),
                     sep = "\t"
                 )
             }
